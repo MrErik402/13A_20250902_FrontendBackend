@@ -15,7 +15,7 @@
             <h3>By: 13.A</h3>
         </header>
         <main>
-            <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -26,19 +26,19 @@
                     <div class="accordion-body">
                         <!--Űrlap-->
                           <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="name">
-                            <label for="name">Termék neve</label>
+                            <input type="text" class="form-control" id="namefield">
+                            <label for="namefield">Termék neve</label>
                           </div>
                           <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="ar">
-                            <label for="ar">Egységár (Ft)</label>
+                            <input type="number" value="0" min="0" class="form-control" id="pricefield">
+                            <label for="pricefield">Egységár (Ft)</label>
                           </div>
                           <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="db">
-                            <label for="db">Darabszám</label>
+                            <input type="number" value="0" min="0" class="form-control" id="countfield">
+                            <label for="countfield">Darabszám</label>
                           </div>
 
-                          <button type="button" class="btn btn-success mb-3">Hozzáadás</button>
+                          <button type="button" id="btn_hozzaad" class="btn btn-success mb-3">Hozzáadás</button>
                     </div>
                   </div>
                 </div>
@@ -54,19 +54,13 @@
                         <th class="text-end">Összesen</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <tbody id="itemlist">
+                   <!--Dinamikus feltöltés-->
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="4">Összesen:</td>
-                        <td class="text-end">0 Ft</td>
+                        <td class="text-end"><strong id="summary">0</strong> Ft</td>
                     </tr>
                 </tfoot>
               </table>
