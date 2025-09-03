@@ -23,22 +23,29 @@
                     </button>
                   </h2>
                   <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
+                    <div class="accordion-body row">
                         <!--Űrlap-->
-                          <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="namefield">
-                            <label for="namefield">Termék neve</label>
+                          <div class="form-floating mb-3 col-12 col-md-6 col-lg-3">
+                            <input type="text" class="form-control" id="nameField">
+                            <label for="nameField">Termék neve</label>
                           </div>
-                          <div class="form-floating mb-3">
-                            <input type="number" value="0" min="0" class="form-control" id="pricefield">
-                            <label for="pricefield">Egységár (Ft)</label>
+                          <div class="form-floating mb-3 col-12 col-md-6 col-lg-3">
+                            <select class="form-select" id="productInList" onchange="Valtozik()" aria-label="Nyisd le a menüt">
+                              
+                            </select>
+                            <label for="productInList">Válaszd ki a terméket</label>
                           </div>
-                          <div class="form-floating mb-3">
-                            <input type="number" value="0" min="0" class="form-control" id="countfield">
-                            <label for="countfield">Darabszám</label>
+                          <div class="form-floating mb-3 col-12 col-md-6 col-lg-3 ">
+                            <input type="number" value="0" min="0" class="form-control " id="priceField">
+                            <label for="priceField">Egységár (Ft)</label>
                           </div>
+                          <div class="form-floating mb-3 col-12 col-md-6 col-lg-3">
+                            <input type="number" value="0" min="0" class="form-control" id="countField">
+                            <label for="countField">Darabszám</label>
+                          </div>
+                   
 
-                          <button type="button" id="btn_hozzaad" class="btn btn-success mb-3">Hozzáadás</button>
+                          <button type="button" id="addBtn" class="btn btn-success mb-3">Hozzáadás</button>
                     </div>
                   </div>
                 </div>
@@ -52,15 +59,17 @@
                         <th class="text-end">Egys. ár</th>
                         <th class="text-end">Mennyiség</th>
                         <th class="text-end">Összesen</th>
+                        <th class="text-center">Műv.</th>
                     </tr>
                 </thead>
-                <tbody id="itemlist">
+                <tbody id="itemsList">
                    <!--Dinamikus feltöltés-->
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="4">Összesen:</td>
-                        <td class="text-end"><strong id="summary">0</strong> Ft</td>
+                        <td class="text-end"><strong id="sumLbl">0</strong> Ft</td>
+                        <td><br></td>
                     </tr>
                 </tfoot>
               </table>

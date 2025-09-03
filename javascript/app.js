@@ -1,93 +1,155 @@
- loadTable();
- let namefield = document.getElementById("namefield"); //Termék neve - namefield
- let pricefield = document.getElementById("pricefield"); //Termék darab ára - pricefield
- let countfield = document.getElementById("countfield"); //Termék darab száma - countfield
- let btn_hozzaad = document.getElementById("btn_hozzaad"); //Hozzáadás gomb - btn_hozzaad
- let itemlist = document.getElementById("itemlist"); //Termék lista - itemlist
- let summary = document.getElementById("summary"); //Összegzés - summary
 
+let nameField = document.getElementById("nameField");
+let priceField = document.getElementById("priceField");
+let countField = document.getElementById("countField");
+let addBtn = document.getElementById("addBtn");
+let itemsList = document.getElementById("itemsList");
+let sumLbl = document.getElementById("sumLbl");
+let productInList = document.getElementById("productInList");
 
- let items = []; //Termékek tárolására szolgáló lista
-/* Tétel hozzáadás */
- let listSum = 0;
- btn_hozzaad.addEventListener('click', () => {
-    if(namefield.value == "" || pricefield.value == 0 || countfield.value == 0){
-        alert("Nem adtál meg minden paramétert!");
+let items = [];
+let productList = []; /* név, ár */
+
+addBtn.addEventListener('click', () => {
+    if ((nameField.value == '' || productInList.value == '')|| priceField.value == 0 || countField.value == 0) {
+        window.alert("Nem adtál meg minden adatot!");
         return;
-    };
-    
-    items.push({
-        name: namefield.value,
-        price: Number(pricefield.value),
-        count: Number(countfield.value),
-        sum: pricefield.value * countfield.value
-    });
-    console.log(items);
-    refreshTable();
-    clearForm();
-    saveTable();
-    
-    
- 
-    
+    }
 
-     
+    if(nameField.value != ""){
+        items.push({
+            name: nameField.value,
+            price: Number(priceField.value),
+            count: Number(countField.value),
+            sum: priceField.value * countField.value
+        });
 
-    /*  <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr> */
- });
+        for (let i = 0; i < items.length; i++) {
+            if(!productList.find(x => x.name == items[i].name)){
+                productList.push({
+                    name: items[i].name,
+                    price: items[i].price,
+                })
+            }
+            
+        }
+    }else{
+        items.push({
+            name: productInList.value,
+            price: Number(priceField.value),
+            count: Number(countField.value),
+            sum: priceField.value * countField.value
+        })
+    } 
 
- function refreshTable(){
-    itemlist.innerHTML = "";
-    sum = 0;
+    RefreshTable();
+    ClearForm();
+    Save();
+    LoadProduct();
+});
 
-    let tr = document.createElement('tr');
-    let td1 = document.createElement('td');
-    let td2 = document.createElement('td');
-    let td3 = document.createElement('td');
-    let td4 = document.createElement('td');
-    let td5 = document.createElement('td');
+function RefreshTable(){
+    itemsList.innerHTML = "";
+    let sum = 0;
 
     for (let i = 0; i < items.length; i++) {
-        td1.innerHTML = i+1+".";
+
+        let tr = document.createElement('tr');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
+        let td4 = document.createElement('td');
+        let td5 = document.createElement('td');
+        let td6 = document.createElement('td');
+        let btn = document.createElement('button');
+
+        td1.innerHTML = i+1;
         td2.innerHTML = items[i].name;
         td3.innerHTML = items[i].price + ' Ft';
-        td4.innerHTML = items[i].count + ' db'; 
-        td5.innerHTML = items[i].sum + ' Ft';
+        td4.innerHTML = items[i].count + ' db';
+        td5.innerHTML = items[i].sum + ' Ft'; 
+        btn.innerHTML = "X"
 
-        td3.classList.add("text-end")
-        td4.classList.add("text-end")
-        td5.classList.add("text-end")
-
-        listSum+=items[i].sum;
-
-        
-    }
-    tr.appendChild(td1);
+        td3.classList.add('text-end');
+        td4.classList.add('text-end');
+        td5.classList.add('text-end');
+        btn.classList.add('btn,btn-danger,text-center,align-middle');
+        btn.addEventListener('click', () => {
+            Delete(i);
+        })
+    
+        sum += items[i].sum;
+        tr.appendChild(td1);
         tr.appendChild(td2);
         tr.appendChild(td3);
         tr.appendChild(td4);
         tr.appendChild(td5);
+        tr.appendChild(td6);
+        td6.appendChild(btn);
 
-        itemlist.appendChild(tr);
-    summary.innerHTML = listSum;
- }
+        itemsList.appendChild(tr);
+       
+    }
+    sumLbl.innerHTML = sum;
+    
+}
 
- function clearForm(){
-    namefield.value = "";
-    pricefield.value = 0;
-    countfield.value = 0;
- }
+function ClearForm(){
+    nameField.value = '';
+    priceField.value = 0;
+    countField.value = 0;
+}
 
- function saveTable(){
-    localStorage.setItem('bevLista', items.toString())
- }
- function loadTable(){
+function Save(){
+    localStorage.setItem('bevlista', JSON.stringify(items));
+    localStorage.setItem('product', JSON.stringify(productList));
+}
 
- }
- clearForm();
+function Load(){
+    if(localStorage.getItem('bevlista')){
+        items = JSON.parse(localStorage.getItem('bevlista'));
+    }
+}
+function Delete(index){
+    if(confirm("Biztosan törölni szeretnéd?")){
+        items.splice(index, 1)
+    }
+    RefreshTable();
+    Save();
+}
+
+function LoadProduct(){
+    productInList.innerHTML = "";
+    if(localStorage.getItem('product')){
+        productList = JSON.parse(localStorage.getItem('product'));
+    }
+
+    for (let i = 0; i < productList.length; i++) {
+        let option = document.createElement('option');
+        option.innerHTML = productList[i].name;
+        priceField.value = productList[i].price;
+
+        productInList.appendChild(option)
+    }
+    
+}
+
+function Valtozik(){
+    for (let i = 0; i < productList.length; i++) {
+        alert(productList[i].name + ' - ' + productList[i].price)
+        alert(productInList.value)
+        if(productInList.value == productList[i].name){
+            priceField.innerHTML = 1
+        }
+        
+    }
+}
+
+//App indítása, törli a beviteli mezőt, betölti a tömböt, és kiírja a táblázatba.
+ClearForm();
+LoadProduct();
+Load();
+RefreshTable();
+
+
+//768 Egységár és mennyiség egymás mellett, 992 mindhárom egymás mellett
